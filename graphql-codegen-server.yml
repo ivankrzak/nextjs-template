@@ -2,7 +2,7 @@ overwrite: true
 schema: 'src/api/graphql/typeDefs'
 documents: null
 generates:
-  src/api/generated/resolversTypes.ts:
+  src/api/generated/resolvers-types.ts:
     config:
       contextType: ../types/GraphQLContext#YogaServerContext
       enumsAsTypes: true

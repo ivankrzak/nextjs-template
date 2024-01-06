@@ -1,8 +1,13 @@
 overwrite: true
 schema: 'src/api/graphql/typeDefs/*.graphql'
-documents: 'src/apollo/graphql/**/*.graphql'
+documents: 'src/graphql/**/*.graphql'
 generates:
-  src/apollo/generated/graphqlClient.ts:
+  src/generated/generated-graphql.ts:
+    config:
+      strictScalars: true
+      scalars:
+        Date: string
+        Object: Object
     plugins:
       - 'typescript'
       - 'typescript-operations'
