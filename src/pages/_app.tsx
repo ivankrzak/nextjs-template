@@ -9,8 +9,6 @@ import { getSession, SessionProvider } from 'next-auth/react'
 import { BaseAppProps, NextPageWithLayout } from 'types/next'
 import { theme } from 'theme'
 import { REFETCH_INTERVAL } from 'constants/common/auth'
-import { Toaster } from 'components/ui/toaster'
-import '../../globals.css'
 
 /*
  Uncomment for SSG
@@ -42,7 +40,6 @@ const AppWithAuth = (props: AppPropsWithLayout) => {
         <ChakraBaseProvider theme={theme}>
           <App {...props} />
         </ChakraBaseProvider>
-        <Toaster />
       </SessionProvider>
     </main>
   )

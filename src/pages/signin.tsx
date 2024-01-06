@@ -1,79 +1,68 @@
-import { Button, Input } from '@chakra-ui/react'
-import { EMAIL_PROVIDER_ID, useEmailSignInForm } from 'hooks/useEmailSignInForm'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Button } from '@chakra-ui/react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { EMAIL_PROVIDER_ID } from 'hooks/useEmailSignInForm'
 import { useLoginCallback } from 'hooks/useLoginCallback'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { BuiltInProviderType } from 'next-auth/providers'
 import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react'
-import { LoginFormFieldName } from 'types/auth'
+import { InferType } from 'yup'
+import * as yup from 'yup'
 import { Route } from 'constants/common/routes'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form'
+import { FormTextInput } from 'components/inputs'
+
+export enum FieldName {
+  Email = 'email',
+  Password = 'password',
+}
+
+export const YupSignInValidationSchema = yup.object({
+  [FieldName.Email]: yup.string().email().required(),
+})
+export type YupSignInFormValues = InferType<typeof YupSignInValidationSchema>
 
 const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useLoginCallback()
-  const { register, isLoading, onSignInSubmit, ...rest } = useEmailSignInForm(providers)
+  const methods = useForm<YupSignInFormValues>({
+    defaultValues: {
+      [FieldName.Email]: '',
+    },
+    resolver: yupResolver(YupSignInValidationSchema),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+  })
 
   const providersWithoutEmail = Object.values(providers).filter(
     ({ id }) => id !== EMAIL_PROVIDER_ID,
   )
 
+  console.log('providersWithoutEmail', providersWithoutEmail)
+  const submit = async (formData: YupSignInFormValues) => {
+    const response = await signIn('email', {
+      ...formData,
+    })
+    console.log('response', response)
+  }
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+    <div>
+      <div>
         <img
-          className="mx-auto h-10 w-auto"
           src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
           alt="Your Company"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          auth.signIn.toYourAccount
-        </h2>
+        <h2>auth.signIn.toYourAccount</h2>
       </div>
 
-      <div className="mt-10 gap-4 sm:mx-auto sm:w-full sm:max-w-sm">
-        <Form {...rest} register={register}>
-          <form className="flex flex-col gap-4" onSubmit={onSignInSubmit}>
-            <FormField
-              control={rest.control}
-              name={LoginFormFieldName.Email}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="auth.signIn.enterYourEmail" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button>auth.signIn.continueWithEmail</Button>
+      <div>
+        <FormProvider {...methods}>
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <form style={{ width: '100%' }} onSubmit={methods.handleSubmit(submit)}>
+            <FormTextInput id={FieldName.Email} label="Email" />
+            <Button type="submit">Submit</Button>
           </form>
-        </Form>
-        {providersWithoutEmail.length > 0 && (
-          <>
-            <div className="my-4 flex items-center justify-center gap-2">
-              <span className="text-center text-sm font-light text-gray-400">
-                auth.signIn.orContinueWith
-              </span>
-            </div>
-            <div className="flex gap-3">
-              {providersWithoutEmail.map((provider) => (
-                <Button
-                  className="w-full"
-                  type="button"
-                  variant="outline"
-                  key={provider.name}
-                  onClick={() => {
-                    void (() => signIn(provider.id))()
-                  }}
-                >
-                  auth.signIn.withProvider
-                </Button>
-              ))}
-            </div>
-          </>
-        )}
+        </FormProvider>
       </div>
     </div>
   )

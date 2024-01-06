@@ -1,3 +1,4 @@
+import { Button } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
@@ -5,7 +6,6 @@ import Link from 'next/link'
 import { getToken } from 'next-auth/jwt'
 import { signOut } from 'next-auth/react'
 import { Route } from 'constants/common/routes'
-import { Button } from 'components/ui/button'
 
 const Home: NextPage = () => (
   <div>
@@ -42,9 +42,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     }
   }
   return {
-    props: {
-      ...context,
-    },
+    props: {},
   }
 }
 

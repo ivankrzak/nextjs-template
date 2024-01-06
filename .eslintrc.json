@@ -3,7 +3,6 @@
     "next/core-web-vitals",
     "@sudolabs-io/eslint-config-sudolabs/typescript-react",
     "@sudolabs-io/eslint-config-sudolabs/with/prettier",
-    "plugin:tailwindcss/recommended"
   ],
   "ignorePatterns": ["next.config.js", "mockServiceWorker.js"],
   "rules": {
