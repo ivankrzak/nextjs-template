@@ -1,9 +1,4 @@
-import {
-  extendTheme,
-  ToastId,
-  ToastOptions,
-  UseToastOptions,
-} from '@chakra-ui/react'
+import { extendTheme, ToastId, ToastOptions, UseToastOptions } from '@chakra-ui/react'
 import { mode, StyleFunctionProps, Styles } from '@chakra-ui/theme-tools'
 import * as Components from './components'
 import { BASE_FONT_SIZE_PX, Colors } from './constants'
@@ -25,7 +20,7 @@ export interface UseToastReturn {
       | 'description'
       | 'isClosable'
       | 'variant'
-    >
+    >,
   ): void
   isActive: (id: ToastId) => boolean | undefined
 }
@@ -71,13 +66,13 @@ export const GlobalStyles: Styles = {
       height: '100vh',
       minHeight: '100vh',
       minWidth: '320px',
-      fontFamily: 'Space Grotesk',
+      fontFamily: 'DM Sans',
       fontSize: '14px',
       bg: mode('brand.white', '#1E1E1E')(props),
       color: mode('brand.deepPurple', 'brand.ghostWhite')(props),
     },
     'body *': {
-      fontFamily: 'Space Grotesk',
+      fontFamily: 'DM Sans',
     },
     '*::placeholder': {
       color: 'brand.wildBlueYonder',
@@ -92,7 +87,7 @@ export const GlobalStyles: Styles = {
       touchAction: 'manipulation',
     },
     input: {
-      fontFamily: 'Space Grotesk',
+      fontFamily: 'DM Sans',
     },
     pre: {
       tabSize: 2,
