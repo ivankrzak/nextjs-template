@@ -59,6 +59,7 @@ export const AuthOptions: NextAuthOptions = {
   },
   events: {
     createUser: async ({ user }) => {
+      console.log('user', user)
       await onUserCreated(user)
     },
   },

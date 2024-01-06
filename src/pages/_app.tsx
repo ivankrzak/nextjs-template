@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/client'
+import { ChakraBaseProvider } from '@chakra-ui/react'
 import { useApollo } from 'hooks/useApollo'
 import { useSetSentryUser } from 'hooks/useSetSentryUser'
 import { NextPageContext } from 'next'
@@ -6,6 +7,7 @@ import type { AppProps } from 'next/app'
 import { Outfit } from 'next/font/google'
 import { getSession, SessionProvider } from 'next-auth/react'
 import { BaseAppProps, NextPageWithLayout } from 'types/next'
+import { theme } from 'theme'
 import { REFETCH_INTERVAL } from 'constants/common/auth'
 import { Toaster } from 'components/ui/toaster'
 import '../../globals.css'
@@ -37,7 +39,9 @@ const AppWithAuth = (props: AppPropsWithLayout) => {
   return (
     <main className={outfit.className}>
       <SessionProvider session={pageProps.session} refetchInterval={REFETCH_INTERVAL}>
-        <App {...props} />
+        <ChakraBaseProvider theme={theme}>
+          <App {...props} />
+        </ChakraBaseProvider>
         <Toaster />
       </SessionProvider>
     </main>

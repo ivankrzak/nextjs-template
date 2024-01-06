@@ -1,3 +1,4 @@
+import { Button, Input } from '@chakra-ui/react'
 import { EMAIL_PROVIDER_ID, useEmailSignInForm } from 'hooks/useEmailSignInForm'
 import { useLoginCallback } from 'hooks/useLoginCallback'
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
@@ -6,10 +7,7 @@ import { BuiltInProviderType } from 'next-auth/providers'
 import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react'
 import { LoginFormFieldName } from 'types/auth'
 import { Route } from 'constants/common/routes'
-import { Button } from 'components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form'
-import { Input } from 'components/ui/input'
-import { Separator } from 'components/ui/separator'
 
 const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useLoginCallback()
@@ -55,18 +53,16 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
         {providersWithoutEmail.length > 0 && (
           <>
             <div className="my-4 flex items-center justify-center gap-2">
-              <Separator className="flex-1" />
               <span className="text-center text-sm font-light text-gray-400">
                 auth.signIn.orContinueWith
               </span>
-              <Separator className="flex-1" />
             </div>
             <div className="flex gap-3">
               {providersWithoutEmail.map((provider) => (
                 <Button
                   className="w-full"
                   type="button"
-                  variant="secondary"
+                  variant="outline"
                   key={provider.name}
                   onClick={() => {
                     void (() => signIn(provider.id))()
