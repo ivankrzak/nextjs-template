@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useTranslation } from 'next-i18next'
 import { Route } from 'constants/common/routes'
 import { Button } from 'components/ui/button'
-import { serverSideTranslations } from '../utils/i18n'
 
 const Admin: NextPage = () => {
   const { t } = useTranslation('admin')
@@ -18,8 +17,8 @@ const Admin: NextPage = () => {
   )
 }
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
-  props: { ...(await serverSideTranslations(context, ['admin'])) },
+export const getServerSideProps = (context: GetServerSidePropsContext) => ({
+  props: { ...context },
 })
 
 export default Admin

@@ -3,12 +3,9 @@
     "next/core-web-vitals",
     "@sudolabs-io/eslint-config-sudolabs/typescript-react",
     "@sudolabs-io/eslint-config-sudolabs/with/prettier",
-    "plugin:storybook/recommended",
-    "plugin:i18next/recommended",
     "plugin:tailwindcss/recommended"
   ],
   "ignorePatterns": ["next.config.js", "mockServiceWorker.js"],
-  "plugins": ["i18next"],
   "rules": {
     "@typescript-eslint/no-use-before-define": ["error", { "functions": false }],
     "react/function-component-definition": [
@@ -81,18 +78,6 @@
           "**/testing/**",
           "vitestSetup.ts",
           "vitest.config.ts"
-        ]
-      }
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        "paths": [
-          {
-            "name": "react-i18next",
-            "importNames": ["useTranslation"],
-            "message": "Use `import { useTranslation } from 'next-i18next'` instead."
-          }
         ]
       }
     ]

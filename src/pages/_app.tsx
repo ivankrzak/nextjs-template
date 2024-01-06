@@ -5,7 +5,6 @@ import { NextPageContext } from 'next'
 import type { AppProps } from 'next/app'
 import { Outfit } from 'next/font/google'
 import { getSession, SessionProvider } from 'next-auth/react'
-import { appWithTranslation } from 'next-i18next'
 import { BaseAppProps, NextPageWithLayout } from 'types/next'
 import { REFETCH_INTERVAL } from 'constants/common/auth'
 import { Toaster } from 'components/ui/toaster'
@@ -31,8 +30,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   )
 }
 
-const AppWithI18n = appWithTranslation(App)
-
 const outfit = Outfit({ subsets: ['latin'] })
 
 const AppWithAuth = (props: AppPropsWithLayout) => {
@@ -40,7 +37,7 @@ const AppWithAuth = (props: AppPropsWithLayout) => {
   return (
     <main className={outfit.className}>
       <SessionProvider session={pageProps.session} refetchInterval={REFETCH_INTERVAL}>
-        <AppWithI18n {...props} />
+        <App {...props} />
         <Toaster />
       </SessionProvider>
     </main>

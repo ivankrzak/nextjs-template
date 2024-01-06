@@ -4,18 +4,15 @@ import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { BuiltInProviderType } from 'next-auth/providers'
 import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-auth/react'
-import { useTranslation } from 'next-i18next'
 import { LoginFormFieldName } from 'types/auth'
 import { Route } from 'constants/common/routes'
 import { Button } from 'components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from 'components/ui/form'
 import { Input } from 'components/ui/input'
 import { Separator } from 'components/ui/separator'
-import { serverSideTranslations } from 'utils/i18n'
 
 const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useLoginCallback()
-  const { t } = useTranslation('common')
   const { register, isLoading, onSignInSubmit, ...rest } = useEmailSignInForm(providers)
 
   const providersWithoutEmail = Object.values(providers).filter(
@@ -31,7 +28,7 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
           alt="Your Company"
         />
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          {t('auth.signIn.toYourAccount')}
+          auth.signIn.toYourAccount
         </h2>
       </div>
 
@@ -43,16 +40,16 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
               name={LoginFormFieldName.Email}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{t('Email')}</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder={t('auth.signIn.enterYourEmail')} {...field} />
+                    <Input placeholder="auth.signIn.enterYourEmail" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button>{t('auth.signIn.continueWithEmail')}</Button>
+            <Button>auth.signIn.continueWithEmail</Button>
           </form>
         </Form>
         {providersWithoutEmail.length > 0 && (
@@ -60,7 +57,7 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
             <div className="my-4 flex items-center justify-center gap-2">
               <Separator className="flex-1" />
               <span className="text-center text-sm font-light text-gray-400">
-                {t('auth.signIn.orContinueWith')}
+                auth.signIn.orContinueWith
               </span>
               <Separator className="flex-1" />
             </div>
@@ -75,7 +72,7 @@ const SignIn = ({ providers }: InferGetServerSidePropsType<typeof getServerSideP
                     void (() => signIn(provider.id))()
                   }}
                 >
-                  {t('auth.signIn.withProvider', { provider: provider.name })}
+                  auth.signIn.withProvider
                 </Button>
               ))}
             </div>
@@ -110,7 +107,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   return {
     props: {
       providers: providers ?? emptyProviders,
-      ...(await serverSideTranslations(context, ['common'])),
     },
   }
 }
